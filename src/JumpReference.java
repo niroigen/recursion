@@ -18,6 +18,10 @@ public class JumpReference {
     Which would initialize an output variable to keep track of the call order
      */
     public static void OrderNode(Node head) {
+        // Here you want to check whether the current node is the one that is null
+        // and not whether head.jump or head.next is, why is that?
+        // It's because the job of the current node is to not worry about the edge case, but instead
+        // it would be passed to the next one
         if (head == null || head.val != -1) return;
 
         head.val = order++;
