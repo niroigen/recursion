@@ -48,6 +48,8 @@ public class PhoneNumberMnemonics {
         }
     }
 
+    // The time complexity for this function would be 4^n as it would need to go n layers deep, and branching factor is 4, at maximum
+    // The space complexity would be O(n) since at every point in time the size of the output would be at most n
     public static void main(String[] args) {
         phoneMap.put('1', "");
         phoneMap.put('2', "abc");
@@ -60,6 +62,6 @@ public class PhoneNumberMnemonics {
         phoneMap.put('9', "wxyz");
         phoneMap.put('0', "");
 
-        printPhoneNumbers("63");
+        printPhoneNumbers("344");
     }
 }
