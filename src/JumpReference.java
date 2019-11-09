@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 public class JumpReference {
     private static class Node {
         Node jump;
@@ -31,6 +33,42 @@ public class JumpReference {
     }
 
     /*
+    Now we will attempt to create order iteratively
+    So in this approach we have to essentially create a stack
+    So it knows when the stack is full
+     */
+    public static void OrderNodeIterative(Node head) {
+        // Let's initialize the stack first
+        Stack<Node> stack = new Stack<>();
+
+        // There's actually no need to store the order value in
+        // we can just have a variable since all the update will happen in the method itself
+        int order = 0;
+
+        // First add the head to the stack
+        stack.push(head);
+
+        // We will keep traversing until (DFS) we have reached the end
+        while (!stack.isEmpty()) {
+            // Extract the top node
+            Node node = stack.pop();
+            // If the node is null or has already been set,
+            // then we don't need to process it
+            if (node == null || node.val != -1) continue;
+
+            // set the node's val to the current order
+            node.val = order;
+
+            // update the current order
+            order++;
+
+            // add the node.next first to the stack since it is last in first out
+            stack.push(node.next);
+            stack.push(node.jump);
+        }
+    }
+
+    /*
     Here we are trying to implement an order of what the calls for a linked list
     The node is very similar to a regular linked list except that this would have a
     jump pointer, which would go to any other node
@@ -50,7 +88,7 @@ public class JumpReference {
         node2.jump = node1;
         node2.next = node3;
 
-        OrderNode(head);
+        OrderNodeIterative(head);
 
         print(head);
     }
