@@ -2,32 +2,25 @@ public class SudokuSolver {
     static char[] possibleNumbers = {'1','2','3','4','5','6','7','8','9'};
 
     public static boolean solve(char[][] board, int row, int col) {
-        print(board);
         /*
-        We will check whether there are no dots left in the board
+        so the base case would be in two
+        1) if the column "overflows" then update the column to be zero and increment row
+        2) if row is also overflowed then we would return true (indicating that we have solved the entire board)
          */
 
-        /*
-        If a column "overflows" then we have to set it back to zero
-         */
-        if (col >= board.length) {
+        if (col >= board.length || row >= board.length) {
             if (row >= board.length) {
                 return true;
             }
             return solve(board, row + 1, 0);
         }
 
-        if (row >= board.length) {
-            return true;
-        }
-        /*
-        We want to traverse through the board for possible cases
-         */
-
+        // If the current row is a '.' then you should try to solve it
         if (board[row][col] == '.') {
-            for (int i = 0; i < 9; i++) {
+            // Go through every possible number and see if any of them can work out
+            for (int i = 0; i < possibleNumbers.length; i++) {
+                // get a possible number
                 char c = possibleNumbers[i];
-
                 if (isPossibleChar(board, c, row, col)) {
                     board[row][col] = c;
                     if (solve(board, row, col + 1)) {
@@ -36,11 +29,11 @@ public class SudokuSolver {
                     board[row][col] = '.';
                 }
             }
-
             return false;
+        } else {
+            // Otherwise you should be calling the next one
+            return solve(board, row, col + 1);
         }
-
-        return solve(board, row, col + 1);
     }
 
     public static boolean isPossibleChar(char[][] board, char c, int row, int col) {
@@ -49,7 +42,6 @@ public class SudokuSolver {
         1) Whether the number is repeated in the row
         2) Whether the number is repeated in the column
         3) Whether the number is repeated in the mini square
-
          */
 
         // First let's check whether the row is good
@@ -165,36 +157,7 @@ public class SudokuSolver {
                 {'.','9','.','.','.','.','4','.','.'},
         };
 
-        /*
-
-8 1 2 7 5 3 6 4 9
-9 4 3 6 8 2 1 7 5
-6 7 5 4 9 1 2 8 3
-1 5 4 2 3 7 8 9 6
-3 6 9 8 4 5 7 2 1
-2 8 7 1 6 9 5 3 4
-5 2 1 9 7 4 3 6 8
-4 3 8 5 2 6 9 1 7
-7 9 6 3 1 8 4 5 2
-         */
-        /*
-        8 . . . . . . . .
-. . 3 6 . . . . .
-. 7 . . 9 . 2 . .
-. 5 . . . 7 . . .
-. . . . 4 5 7 . .
-. . . 1 . . . 3 .
-. . 1 . . . . 6 8
-. . 8 5 . . . 1 .
-. 9 . . . . 4 . .
-         */
-
-        char[][] easyBoard = {
-                {'.','.','.','.'},
-                {'.','.','.','.'},
-                {'.','.','4','.'},
-                {'.','.','.','.'}
-        };
         solve(board, 0,0);
+        print(board);
     }
 }
